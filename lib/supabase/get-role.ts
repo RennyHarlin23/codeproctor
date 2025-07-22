@@ -1,40 +1,32 @@
-import { createClient } from "./client";
+import { auth } from "../../auth";
+import { createClient } from "./server";
 
-type UserRole = "admin" | "staff" | "student" | null;
+export default async function getRole() {
+  const session = await auth();
 
-type Profile = {
-  role: UserRole;
-  id: string;
-  created_at: string;
-};
+  if (!session?.user?.id) {
+    return null;
+  }
 
-// Server-side function to get role (no router dependency)
-export default async function getRole(): Promise<UserRole> {
-  const supabase = createClient();
+  const userId = session.user.id;
 
   try {
-    const {
-      data: { session },
-      error: sessionError,
-    } = await supabase.auth.getSession();
+    const supabase = await createClient();
 
-    if (sessionError || !session) {
-      return null;
-    }
-
-    const { data: profile, error: profileError } = await supabase
+    const { data: profile, error } = await supabase
       .from("profiles")
-      .select("role, id, created_at")
-      .eq("id", session.user.id)
+      .select("role")
+      .eq("id", userId)
       .single();
 
-    if (profileError || !profile) {
+    if (error) {
+      console.error("Error fetching user role:", error);
       return null;
     }
 
-    return profile.role;
+    return profile?.role || null;
   } catch (error) {
-    console.error("Error getting role:", error);
+    console.error("Error in getRole:", error);
     return null;
   }
 }

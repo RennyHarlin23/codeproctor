@@ -1,194 +1,58 @@
-import {
-  BookOpen,
-  Code,
-  FileText,
-  Home,
-  Settings,
-  Users,
-  ClipboardCheck,
-  Trophy,
-  BarChart3,
-  User,
-  Shield,
-  Calendar,
-  MessageSquare,
-} from "lucide-react";
+import { Calendar, Home, Inbox, Search, Settings } from "lucide-react"
+
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
-  SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarSeparator,
-} from "@/components/ui/sidebar";
+} from "@/components/ui/sidebar"
 
-// Mock user data - replace with actual user context
-const user = {
-  name: "John Doe",
-  email: "john@example.com",
-  role: "student", // or "admin", "staff"
-  avatar: "/avatars/john.jpg",
-};
-
-// Navigation items based on user roles
-const navigationItems = {
-  student: [
-    {
-      title: "Dashboard",
-      url: "/dashboard",
-      icon: Home,
-    },
-    {
-      title: "Assignments",
-      url: "/assignments",
-      icon: FileText,
-    },
-    {
-      title: "Code Editor",
-      url: "/editor",
-      icon: Code,
-    },
-    {
-      title: "Submissions",
-      url: "/submissions",
-      icon: ClipboardCheck,
-    },
-    {
-      title: "Grades",
-      url: "/grades",
-      icon: Trophy,
-    },
-  ],
-  staff: [
-    {
-      title: "Dashboard",
-      url: "/dashboard",
-      icon: Home,
-    },
-    {
-      title: "Courses",
-      url: "/courses",
-      icon: BookOpen,
-    },
-    {
-      title: "Assignments",
-      url: "/assignments",
-      icon: FileText,
-    },
-    {
-      title: "Students",
-      url: "/students",
-      icon: Users,
-    },
-    {
-      title: "Evaluations",
-      url: "/evaluations",
-      icon: ClipboardCheck,
-    },
-    {
-      title: "Analytics",
-      url: "/analytics",
-      icon: BarChart3,
-    },
-  ],
-  admin: [
-    {
-      title: "Dashboard",
-      url: "/admin/dashboard",
-      icon: Home,
-    },
-    {
-      title: "User Management",
-      url: "/admin/users",
-      icon: Users,
-    },
-    {
-      title: "Course Management",
-      url: "/admin/courses",
-      icon: BookOpen,
-    },
-    {
-      title: "System Settings",
-      url: "/admin/settings",
-      icon: Settings,
-    },
-    {
-      title: "Reports",
-      url: "/admin/reports",
-      icon: BarChart3,
-    },
-    {
-      title: "Security",
-      url: "/admin/security",
-      icon: Shield,
-    },
-  ],
-};
-
-const commonItems = [
+// Menu items.
+const items = [
   {
-    title: "Schedule",
-    url: "/schedule",
+    title: "Home",
+    url: "#",
+    icon: Home,
+  },
+  {
+    title: "Inbox",
+    url: "#",
+    icon: Inbox,
+  },
+  {
+    title: "Calendar",
+    url: "#",
     icon: Calendar,
   },
   {
-    title: "Messages",
-    url: "/messages",
-    icon: MessageSquare,
-  },
-  {
-    title: "Profile",
-    url: "/profile",
-    icon: User,
+    title: "Search",
+    url: "#",
+    icon: Search,
   },
   {
     title: "Settings",
-    url: "/settings",
+    url: "#",
     icon: Settings,
   },
-];
+]
 
 export function AppSidebar() {
-  const userNavItems =
-    navigationItems[user.role as keyof typeof navigationItems] || [];
-
   return (
-    <Sidebar collapsible="icon">
+    <Sidebar>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Main Navigation</SidebarGroupLabel>
+          <SidebarGroupLabel>Application</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {userNavItems.map((item) => (
+              {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <a href={item.url}>
-                      <item.icon className="size-4" />
-                      <span>{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-
-        <SidebarSeparator />
-
-        <SidebarGroup>
-          <SidebarGroupLabel>General</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {commonItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.url}>
-                      <item.icon className="size-4" />
+                      <item.icon />
                       <span>{item.title}</span>
                     </a>
                   </SidebarMenuButton>
@@ -198,17 +62,6 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-
-      <SidebarFooter>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton>
-              <User className="size-4" />
-              <span>{user.name}</span>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
-      </SidebarFooter>
     </Sidebar>
-  );
+  )
 }
